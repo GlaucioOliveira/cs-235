@@ -1,13 +1,14 @@
 ###############################################################
 # Program:
 #     Assignment 01, Vector
-#     Brother XXXX, CS235
+#     Brother Kirby, CS235
 # Author:
-#     <your name here>
+#     Glaucio Oliveira
 # Summary:
-#     <put a description here>
+#     This program implements a Vector data structure
 # Time:
-#     <how long did it take to complete this program?>
+#     It took about two weeks to finish the program.
+#     I had a hard time to make things running.
 ###############################################################
 
 ##############################################################
