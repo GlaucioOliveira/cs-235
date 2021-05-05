@@ -13,17 +13,145 @@
 #include <string>      // for STRING
 #include <cassert>     // for ASSERT
 #include "stack.h"     // for STACK
+#include <stack>
 using namespace std;
+
+int getWeight(char c);
+bool isOperation(char c);
 
 /*****************************************************
  * CONVERT INFIX TO POSTFIX
  * Convert infix equation "5 + 2" into postifx "5 2 +"
  *****************************************************/
-string convertInfixToPostfix(const string & infix)
+string convertInfixToPostfix(const string& infix)
 {
-   string postfix;
+	string postfix = "";
 
-   return postfix;
+	stack<char> stackList;
+
+	int iInfix = 0;
+	int iPostfix = 0;
+
+	//postfix = "   "; //@todo google how to create a buffer or empty spaces...
+
+	for (iInfix = 0; iInfix < infix.size(); iInfix++)
+	{
+		char currentChar = infix[iInfix];
+		//char previousChar = ' ';
+
+		//if (iInfix > 0) previousChar = infix[iInfix - 1];
+
+		if (isdigit(currentChar))
+		{
+
+			//postfix[iPostfix++] = infix[iInfix];
+			iPostfix++;
+			postfix = postfix + currentChar;
+
+		}
+		else if (!isOperation(currentChar) && !isspace(currentChar))
+		{
+			iPostfix++;
+			postfix = postfix + currentChar;
+		}
+		else if (!isspace(currentChar))
+		{
+			while (!stackList.empty() && getWeight(currentChar) <= getWeight(stackList.top()))
+			{
+				//^ * / + -            
+
+				iPostfix++;
+				postfix = postfix + stackList.top() + " ";
+
+				stackList.pop();
+			}
+
+			stackList.push(currentChar);
+		}
+		//else if (isOperation(currentChar) && isspace(previousChar)) {
+		//    iPostfix++;
+		//    postfix = postfix + " ";
+		//}
+		//else if (isdigit(currentChar) && isspace(previousChar)) {
+		//    iPostfix++;
+		//    postfix = postfix + " ";
+		//}
+
+		if (isspace(currentChar))
+		{
+			iPostfix++;
+			postfix = postfix + " ";
+		}
+	}
+
+
+	while (!stackList.empty())
+	{
+		iPostfix++;
+		postfix = postfix + stackList.top() + " ";
+		stackList.pop();
+	}
+
+	return postfix;
+}
+
+bool isOperation(char c) {
+	switch (c)
+	{
+	case '+':
+		return true;
+		break;
+
+	case '-':
+		return true;
+		break;
+
+	case '/':
+		return true;
+		break;
+
+
+	case '*':
+		return true;
+		break;
+
+	case '^':
+		return true;
+		break;
+
+	default:
+		return false;
+	}
+}
+
+int getWeight(char c) {
+
+	switch (c)
+	{
+	case '+':
+		return 1;
+		break;
+
+	case '-':
+		return 1;
+		break;
+
+	case '/':
+		return 2;
+		break;
+
+
+	case '*':
+		return 2;
+		break;
+
+	case '^':
+		return 3;
+		break;
+
+	default:
+		return 0;
+	}
 }
 
 /*****************************************************
@@ -33,30 +161,29 @@ string convertInfixToPostfix(const string & infix)
  *****************************************************/
 void testInfixToPostfix()
 {
-   string input;
-   cout << "Enter an infix equation.  Type \"quit\" when done.\n";
-   
-   do
-   {
-      // handle errors
-      if (cin.fail())
-      {
-         cin.clear();
-         cin.ignore(256, '\n');
-      }
-      
-      // prompt for infix
-      cout << "infix > ";
-      getline(cin, input);
+	string input;
+	cout << "Enter an infix equation.  Type \"quit\" when done.\n";
 
-      // generate postfix
-      if (input != "quit")
-      {
-         string postfix = convertInfixToPostfix(input);
-         cout << "\tpostfix: " << postfix << endl << endl;
-      }
-   }
-   while (input != "quit");
+	do
+	{
+		// handle errors
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(256, '\n');
+		}
+
+		// prompt for infix
+		cout << "infix > ";
+		getline(cin, input);
+
+		// generate postfix
+		if (input != "quit")
+		{
+			string postfix = convertInfixToPostfix(input);
+			cout << "\tpostfix: " << postfix << endl << endl;
+		}
+	}    while (input != "quit");
 }
 
 /**********************************************
@@ -66,11 +193,11 @@ void testInfixToPostfix()
  *     ADD 2
  *     STORE VALUE1
  **********************************************/
-string convertPostfixToAssembly(const string & postfix)
+string convertPostfixToAssembly(const string& postfix)
 {
-   string assembly;
+	string assembly;
 
-   return assembly;
+	return assembly;
 }
 
 /*****************************************************
@@ -80,29 +207,28 @@ string convertPostfixToAssembly(const string & postfix)
  *****************************************************/
 void testInfixToAssembly()
 {
-   string input;
-   cout << "Enter an infix equation.  Type \"quit\" when done.\n";
+	string input;
+	cout << "Enter an infix equation.  Type \"quit\" when done.\n";
 
-   do
-   {
-      // handle errors
-      if (cin.fail())
-      {
-         cin.clear();
-         cin.ignore(256, '\n');
-      }
-      
-      // prompt for infix
-      cout << "infix > ";
-      getline(cin, input);
-      
-      // generate postfix
-      if (input != "quit")
-      {
-         string postfix = convertInfixToPostfix(input);
-         cout << convertPostfixToAssembly(postfix);
-      }
-   }
-   while (input != "quit");
-      
+	do
+	{
+		// handle errors
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(256, '\n');
+		}
+
+		// prompt for infix
+		cout << "infix > ";
+		getline(cin, input);
+
+		// generate postfix
+		if (input != "quit")
+		{
+			string postfix = convertInfixToPostfix(input);
+			cout << convertPostfixToAssembly(postfix);
+		}
+	}    while (input != "quit");
+
 }
