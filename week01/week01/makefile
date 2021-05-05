@@ -7,7 +7,7 @@
 # Summary:
 #     This program implements a Vector data structure
 # Time:
-#     It took about two weeks to finish the program.
+#     It took about one week to finish the program.
 #     I had a hard time to make things running.
 ###############################################################
 
