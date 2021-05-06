@@ -25,7 +25,7 @@ bool isOperation(char c);
  *****************************************************/
 string convertInfixToPostfix(const string& infix)
 {
-	string postfix = "\t";
+	string postfix = "";
 	stack<char> stackList;
 	
 	int iInfix = 0;

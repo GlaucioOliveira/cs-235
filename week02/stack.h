@@ -73,7 +73,7 @@ public:
        if (numElements > 0)
            return array[numElements - 1];
        else
-           return NULL;
+           throw "No elements in the stack";
    }
 
    
