@@ -23,14 +23,14 @@ bool isOperation(char c);
  * CONVERT INFIX TO POSTFIX
  * Convert infix equation "5 + 2" into postifx "5 2 +"
  *****************************************************/
-string convertInfixToPostfix(const string& infix)
+string convertInfixToPostfix(/*const*/ string& infix)
 {
 	//infix = "a + b * c ^ d - e";
 	//infix = "a ^ b + c * d";
 	//infix = "3.14159 * diameter";
 	//infix = "4.5+a5+.1215  +   1";
 	///infix = "pi*r^2";
-	//infix = "(5.0  /  .9)*(fahrenheit - 32)";
+	infix = "(5.0  /  .9)*(fahrenheit - 32)";
 
 	string postfix = "";
 	stack<char> stackList;
@@ -40,6 +40,7 @@ string convertInfixToPostfix(const string& infix)
 	bool previusCharDigit = false;
 	bool previusCharVariable = false;
 	bool previusCharSpace = false;
+	bool writingVariable = false;
 
 	for (iInfix = 0; iInfix < infix.size(); iInfix++)
 	{
@@ -52,7 +53,7 @@ string convertInfixToPostfix(const string& infix)
 		{
 			iPostfix++;
 			
-			if (previusCharDigit == false )
+			if (previusCharDigit == false && writingVariable == false)
 				postfix += ' ';
 
 			postfix += currentChar;
@@ -74,8 +75,10 @@ string convertInfixToPostfix(const string& infix)
 			while (!stackList.empty() && stackList.top() != '(')
 			{
 				iPostfix++;
-				postfix += " " + stackList.top();
+				char stackChar = stackList.top();
 				stackList.pop();
+				postfix = postfix + " ";
+				postfix = postfix + stackChar;
 			}
 
 			stackList.pop();
@@ -97,6 +100,7 @@ string convertInfixToPostfix(const string& infix)
 			previusCharDigit = false;
 			previusCharVariable = true;
 			previusCharSpace = false;
+			writingVariable = true;
 		}
 		else if (!isspace(currentChar))
 		{
@@ -113,11 +117,13 @@ string convertInfixToPostfix(const string& infix)
 			previusCharDigit = false;
 			previusCharVariable = false;
 			previusCharSpace = false;
+			writingVariable = false;
 		}
 		else if (isspace(currentChar)) {
 			previusCharDigit = false;
 			previusCharVariable = false;
 			previusCharSpace = true;
+			writingVariable = false;
 		}
 		//else if (isOperation(currentChar) && isspace(previousChar)) {
 		//    iPostfix++;
