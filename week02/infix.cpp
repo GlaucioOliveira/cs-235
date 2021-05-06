@@ -3,7 +3,7 @@
  *    Week 02, Stack
  *    Brother Helfrich, CS 235
  * Author:
- *    <your name here>
+ *    Gláucio Oliveira and Dante
  * Summary:
  *    This program will implement the testInfixToPostfix()
  *    and testInfixToAssembly() functions
@@ -25,29 +25,39 @@ bool isOperation(char c);
  *****************************************************/
 string convertInfixToPostfix(const string& infix)
 {
-	string postfix = "";
-
+	string postfix = "\t";
 	stack<char> stackList;
-
+	
 	int iInfix = 0;
 	int iPostfix = 0;
 
-	//postfix = "   "; //@todo google how to create a buffer or empty spaces...
 
 	for (iInfix = 0; iInfix < infix.size(); iInfix++)
 	{
 		char currentChar = infix[iInfix];
-		//char previousChar = ' ';
+		char previousChar = ' ';
 
-		//if (iInfix > 0) previousChar = infix[iInfix - 1];
+		if (iInfix > 0) previousChar = infix[iInfix - 1];
 
 		if (isdigit(currentChar))
 		{
-
-			//postfix[iPostfix++] = infix[iInfix];
 			iPostfix++;
-			postfix = postfix + currentChar;
+			postfix = postfix + " " + currentChar;
+		}
+		else if (currentChar == '(') 
+		{
+			stackList.push('(');
+		}
+		else if (currentChar == ')') 
+		{
+			while (!stackList.empty() && stackList.top() != '(')
+			{
+				iPostfix++;
+				postfix += " " + stackList.top();
+				stackList.pop();
+			}
 
+			stackList.pop();
 		}
 		else if (!isOperation(currentChar) && !isspace(currentChar))
 		{
@@ -58,10 +68,8 @@ string convertInfixToPostfix(const string& infix)
 		{
 			while (!stackList.empty() && getWeight(currentChar) <= getWeight(stackList.top()))
 			{
-				//^ * / + -            
-
 				iPostfix++;
-				postfix = postfix + stackList.top() + " ";
+				postfix = postfix + " " + stackList.top() ;
 
 				stackList.pop();
 			}
@@ -77,18 +85,17 @@ string convertInfixToPostfix(const string& infix)
 		//    postfix = postfix + " ";
 		//}
 
-		if (isspace(currentChar))
-		{
-			iPostfix++;
-			postfix = postfix + " ";
-		}
+		//if (isspace(currentChar) && !isspace(postfix[iPostfix]))
+		//{
+		//	postfix = postfix + " ";
+		//	iPostfix++;
+		//}
 	}
 
 
 	while (!stackList.empty())
 	{
-		iPostfix++;
-		postfix = postfix + stackList.top() + " ";
+		postfix = postfix + " " + stackList.top() ;
 		stackList.pop();
 	}
 
