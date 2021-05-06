@@ -23,12 +23,12 @@ bool isOperation(char c);
  * CONVERT INFIX TO POSTFIX
  * Convert infix equation "5 + 2" into postifx "5 2 +"
  *****************************************************/
-string convertInfixToPostfix(/*const*/ string& infix)
+string convertInfixToPostfix(const string& infix)
 {
 	//infix = "a + b * c ^ d - e";
 	//infix = "a ^ b + c * d";
 	//infix = "3.14159 * diameter";
-	infix = "4.5+a5+.1215  +   1";
+	//infix = "4.5+a5+.1215  +   1";
 	///infix = "pi*r^2";
 	//infix = "(5.0  /  .9)*(fahrenheit - 32)";
 
