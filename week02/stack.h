@@ -258,16 +258,16 @@ stack <T> :: stack(const stack <T> & rhs)
  * Preallocate the stack to "capacity"
  **********************************************/
 template <class T>
-stack <T> :: stack(int numElements) 
+stack <T> :: stack(int numCapacity) 
 {
    assert(numElements >= 0);
    
    // do nothing if there is nothing to do.
    // since we can't grow an stack, this is kinda pointless
-   if (numElements == 0)
+   if (numCapacity == 0)
    {
-      this->numElements = 0;
-      numCapacity = 0;
+      this->numCapacity = 0;
+      numElements = 0;
 
       this->array = NULL;
       return;
@@ -276,17 +276,15 @@ stack <T> :: stack(int numElements)
    // attempt to allocate
    try
    {
-      array = new T[numElements];
+      array = new T[numCapacity];
    }
    catch (std::bad_alloc)
    {
       throw "ERROR: Unable to allocate buffer";
    }
 
-      
-   // copy over the stuff
-   this->numElements = numElements;
-   numCapacity = numElements;
+   this->numElements = 0;
+   this->numCapacity = numCapacity;
 }
 
 /********************************************
