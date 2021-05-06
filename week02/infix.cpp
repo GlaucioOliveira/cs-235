@@ -23,14 +23,23 @@ bool isOperation(char c);
  * CONVERT INFIX TO POSTFIX
  * Convert infix equation "5 + 2" into postifx "5 2 +"
  *****************************************************/
-string convertInfixToPostfix(const string& infix)
+string convertInfixToPostfix(/*const*/ string& infix)
 {
+	//infix = "a + b * c ^ d - e";
+	//infix = "a ^ b + c * d";
+	//infix = "3.14159 * diameter";
+	infix = "4.5+a5+.1215  +   1";
+	///infix = "pi*r^2";
+	//infix = "(5.0  /  .9)*(fahrenheit - 32)";
+
 	string postfix = "";
 	stack<char> stackList;
 	
 	int iInfix = 0;
 	int iPostfix = 0;
-
+	bool previusCharDigit = false;
+	bool previusCharVariable = false;
+	bool previusCharSpace = false;
 
 	for (iInfix = 0; iInfix < infix.size(); iInfix++)
 	{
@@ -39,14 +48,26 @@ string convertInfixToPostfix(const string& infix)
 
 		if (iInfix > 0) previousChar = infix[iInfix - 1];
 
-		if (isdigit(currentChar))
+		if (isdigit(currentChar) || currentChar == '.') 
 		{
 			iPostfix++;
-			postfix = postfix + " " + currentChar;
+			
+			if (previusCharDigit == false )
+				postfix += ' ';
+
+			postfix += currentChar;
+
+			previusCharDigit = true;
+			previusCharVariable = false;
+			previusCharSpace = false;
 		}
 		else if (currentChar == '(') 
 		{
 			stackList.push('(');
+
+			previusCharDigit = false;
+			previusCharVariable = false;
+			previusCharSpace = false;
 		}
 		else if (currentChar == ')') 
 		{
@@ -58,23 +79,45 @@ string convertInfixToPostfix(const string& infix)
 			}
 
 			stackList.pop();
+
+			previusCharDigit = false;
+			previusCharVariable = false;
+			previusCharSpace = false;
 		}
 		else if (!isOperation(currentChar) && !isspace(currentChar))
 		{
+			//variable
 			iPostfix++;
+
+			if (previusCharVariable == false)
+				postfix = postfix + " ";
+
 			postfix = postfix + currentChar;
+
+			previusCharDigit = false;
+			previusCharVariable = true;
+			previusCharSpace = false;
 		}
 		else if (!isspace(currentChar))
 		{
 			while (!stackList.empty() && getWeight(currentChar) <= getWeight(stackList.top()))
 			{
 				iPostfix++;
-				postfix = postfix + " " + stackList.top() ;
+				postfix = postfix + " " + stackList.top();
 
 				stackList.pop();
 			}
 
 			stackList.push(currentChar);
+
+			previusCharDigit = false;
+			previusCharVariable = false;
+			previusCharSpace = false;
+		}
+		else if (isspace(currentChar)) {
+			previusCharDigit = false;
+			previusCharVariable = false;
+			previusCharSpace = true;
 		}
 		//else if (isOperation(currentChar) && isspace(previousChar)) {
 		//    iPostfix++;

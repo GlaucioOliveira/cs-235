@@ -73,7 +73,7 @@ public:
        if (numElements > 0)
            return array[numElements - 1];
        else
-           throw "No elements in the stack";
+           throw "ERROR: Unable to reference the element from an empty Stack";
    }
 
    
