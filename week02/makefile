@@ -3,7 +3,7 @@
 #     Assignment 02, STACK
 #     Brother XXXX, CS235
 # Author:
-#     <your name here>
+#     Dante Castaneda & Gláucio Oliveira
 # Summary:
 #     <put a description here>
 # Time:
